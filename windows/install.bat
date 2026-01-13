@@ -1,12 +1,29 @@
 @echo off
 echo == Instalando WhatsApp API (Windows) ==
 
-where node >nul 2>nul
-IF %ERRORLEVEL% NEQ 0 (
-  echo Instale o Node.js: https://nodejs.org
+:: Node
+node -v >nul 2>&1
+if errorlevel 1 (
+  echo ❌ Node.js não encontrado
   exit /b 1
 )
 
-npm install -g @wppconnect-team/wppconnect-server
+:: NPM
+npm -v >nul 2>&1
+if errorlevel 1 (
+  echo ❌ NPM não encontrado
+  exit /b 1
+)
 
-echo Instalação concluída com sucesso.
+:: Limpa cache (previne erros estranhos)
+npm cache clean --force
+
+:: Instala WPPConnect correto
+npm install -g @wppconnect-team/wppconnect
+if errorlevel 1 (
+  echo ❌ Erro ao instalar WPPConnect
+  exit /b 1
+)
+
+echo ✅ WhatsApp API instalada com sucesso
+exit /b 0

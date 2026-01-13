@@ -1,13 +1,13 @@
 #!/bin/bash
+set -e
 
 echo "== Atualizando WhatsApp API (Linux) =="
 
-if ! command -v node &> /dev/null
-then
-  echo "Node.js não encontrado. Execute install.sh primeiro."
-  exit 1
-fi
+npm cache clean --force
 
-npm update -g @wppconnect-team/wppconnect-server
+npm update -g @wppconnect-team/wppconnect
+npm update -g pm2
 
-echo "Atualização concluída com sucesso."
+pm2 restart erpsol-whatsapp || true
+
+echo "✅ Atualização concluída"

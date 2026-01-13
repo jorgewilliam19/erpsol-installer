@@ -1,12 +1,17 @@
 @echo off
 echo == Atualizando WhatsApp API (Windows) ==
 
-where node >nul 2>nul
-IF %ERRORLEVEL% NEQ 0 (
-  echo Node.js não encontrado. Execute install.bat primeiro.
+npm cache clean --force
+
+npm update -g @wppconnect-team/wppconnect
+if errorlevel 1 (
+  echo ❌ Erro ao atualizar WPPConnect
   exit /b 1
 )
 
-npm update -g @wppconnect-team/wppconnect-server
+npm update -g pm2
 
-echo Atualização concluída com sucesso.
+pm2 restart erpsol-whatsapp >nul 2>&1
+
+echo ✅ Atualização finalizada
+exit /b 0
